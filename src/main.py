@@ -1,6 +1,6 @@
 from StockPredictionWrapper import StockPredictionWrapper
 
-key = "ca60b9eee5msh87e0638d43a4436p1cb6c9jsn5fe168290094"
+key = "your_key"
 host = "alpha-vantage.p.rapidapi.com"
 function = "TIME_SERIES_WEEKLY"
 symbol = "NFLX"
