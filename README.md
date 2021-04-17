@@ -3,7 +3,7 @@
 <p>Small library intended for stock prediction, making reports, automating transactions (in process). </p>
 
 <p>Currently it only supports Prophet as a prediction model.</p>
-<p>Currently the only supported api is alpha-vantage. (<a>https://rapidapi.com/alphavantage/api/alpha-vantage</a>)</p>
+<p>Currently the only supported api is [alpha-vantage]:https://rapidapi.com/alphavantage/api/alpha-vantage</p>
 
 <p> How to run: 
 <ol>
