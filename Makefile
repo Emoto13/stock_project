@@ -1,6 +1,9 @@
 .PHONY: activate activate_install deactivate run lint clean
 
-activate:
+create_venv:
+	python3 -m venv venv
+
+activate: create_venv
 	(. venv/bin/activate;)
 
 activate_install: activate
