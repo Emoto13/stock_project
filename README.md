@@ -1,9 +1,9 @@
 <h1>Stock Project</h1>
 
-<p>Small library intended for stock prediction, making reports, automating transactions (in process). </p>
+Small library intended for stock prediction, making reports, automating transactions (in process).
 
-<p>Currently it only supports Prophet as a prediction model.</p>
-<p>Currently the only supported api is [alpha-vantage]:https://rapidapi.com/alphavantage/api/alpha-vantage</p>
+Currently it only supports Prophet as a prediction model.
+Currently the only supported api is [alpha-vantage](https://rapidapi.com/alphavantage/api/alpha-vantage)
 
 <p> How to run: 
 <ol>
