@@ -2,8 +2,15 @@ from prophet import Prophet
 import matplotlib.pyplot as plt
 from pathlib import Path
 
-class Predictor:
+map_query_to_seasonality = {
+    'TIME_SERIES_MONTHLY': 'monthly',
+    'TIME_SERIES_WEEKLY': 'weekly',
+    
+}
 
+
+class Predictor:
+    
     def __init__(self) -> None:
         pass
 
@@ -23,9 +30,16 @@ class Predictor:
         return map_model_to_function[model](dataframe)
 
     @staticmethod
-    def predict_prophet(dataframe):
+    def predict_prophet(dataframe, seasonality='weekly'):
         model = Prophet()
+        model.add_seasonality(
+        name=seasonality, 
+        period=30.5, 
+        fourier_order=5
+        )
         model.fit(dataframe)
         future = model.make_future_dataframe(periods=365)
         forecast = model.predict(future)
+        forecast = forecast[['ds', 'yhat']]
+        forecast.set_index('ds', inplace=True)
         return forecast
