@@ -73,14 +73,14 @@ class StockPredictionWrapper:
 
         field_to_use = map_function_to_field_name[function]
         df = DataTransformer(raw_data).to_dataframe(field_to_use)
-        pred_df = Preprocessor.preprocess_alpha_vantage_df(df)
+        pred_df = Preprocessor(df).preprocess_alpha_vantage_df()
 
         if convert_to_stationary:
             pred_df = self.__convert_time_series_to_stationary(pred_df,
                             stationarity_test=stationarity_test,
                             smoother=smoother)
 
-        save_path = save_path if save_path != 'plot.png' else f'../reports/stocks/predictions/{symbol}/{function}_at_today.png'
+        save_path = save_path if save_path != 'plot.png' else f'reports/stocks/predictions/{symbol}/{function}_at_today.png'
         forecast = Predictor.predict(pred_df[:-cutoff], model='prophet')
 
         if save_plot:
