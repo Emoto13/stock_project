@@ -7,12 +7,11 @@ class Smoother:
         pass
 
     @staticmethod
-    def smooth(dataframe, type='lowess', field='y'):
+    def smooth(dataframe: pd.DataFrame, type:str ='lowess', field:str ='y'):
         map_type_to_function = {
             'lowess': Smoother.lowess,
             'moving_average': Smoother.moving_average
         }
-    
         return map_type_to_function[type](dataframe, field=field)
 
     @staticmethod

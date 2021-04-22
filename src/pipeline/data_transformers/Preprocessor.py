@@ -1,13 +1,12 @@
 import pandas as pd
+from sklearn.preprocessing import MinMaxScaler
 
 class Preprocessor:
-    def __init__(self, dataframe, preprocess='close') -> None:
+    def __init__(self, dataframe) -> None:
         self.dataframe = dataframe
         
-
-    @staticmethod
-    def preprocess_alpha_vantage_df(dataframe):
-        result_df = dataframe.T
+    def preprocess_alpha_vantage_df(self):
+        result_df = self.dataframe.T
         result_df['1. open'] = result_df['1. open'].astype('float')
         result_df['2. high'] = result_df['2. high'].astype('float') 
         result_df['3. low'] = result_df['3. low'].astype('float') 
@@ -17,6 +16,5 @@ class Preprocessor:
         result_df.drop(columns=['1. open', '2. high', '3. low', '4. close', '5. volume'], inplace=True)
         result_df.index.name = 'ds'
         result_df.index = pd.to_datetime(result_df.index)
-        print(result_df.info())
         result_df.reset_index(inplace=True)
         return result_df
