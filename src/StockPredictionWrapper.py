@@ -1,13 +1,13 @@
 from visualization.PlotWriterReader import PlotWriterReader
-from pipeline.data_transformers import Preprocessor, Smoother, DataTransformer
+from pipeline.data_transformers import Preprocessor, Smoother, RawDataTransformer
 from pipeline.data_fetchers import StockDataFetcher
 from models import Predictor
 from utils import StationarityTester
 
 map_function_to_field_name = {
-    'TIME_SERIES_MONTHLY': ['Monthly Time Series'],
-    'TIME_SERIES_WEEKLY': ['Weekly Time Series'],
-    'TIME_SERIES_DAILY': ['Time Series (Daily)']
+    'TIME_SERIES_MONTHLY': 'Monthly Time Series',
+    'TIME_SERIES_WEEKLY': 'Weekly Time Series',
+    'TIME_SERIES_DAILY': 'Time Series (Daily)'
 }
 
 
@@ -35,7 +35,7 @@ class StockPredictionWrapper:
                        cutoff: int = 100,
                        save_plot: bool = False,
                        save_path: str = 'plot.png'):
-        '''
+        """
             Runs Prediction for a given stock
 
             url (str): To communicate with the external API
@@ -59,7 +59,7 @@ class StockPredictionWrapper:
 
             smoother (str): convert non-stationary series to stationary
             -> (options): loess, lowess, moving_average
-        '''
+        """
         querystring = {"symbol": symbol,
                        "function": function,
                        "outputsize": "compact",
@@ -72,7 +72,7 @@ class StockPredictionWrapper:
         .fetch_data()
 
         field_to_use = map_function_to_field_name[function]
-        df = DataTransformer(raw_data).to_dataframe(field_to_use)
+        df = RawDataTransformer(raw_data).to_dataframe(field_to_use)
         pred_df = Preprocessor(df).preprocess_alpha_vantage_df()
 
         if convert_to_stationary:
