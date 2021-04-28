@@ -9,7 +9,7 @@ class LSTMForecasterBuilder:
     def __init__(self, dataframe=None, load=True, load_path=MODEL_CHECKPOINT):
         self.__preprocess_data(dataframe)
         # Load tf model
-        if load: self.model = tf.keras.models.load_model(MODEL_CHECKPOINT)
+        if load: self.model = tf.keras.models.load_model(load_path)
         else: self.model = LSTMForecaster()
     
     # Wrapper of all preprocessing and data splitting
