@@ -1,8 +1,8 @@
 from visualization.PlotWriterReader import PlotWriterReader
 from pipeline.data_transformers import Preprocessor, Smoother, RawDataTransformer
 from pipeline.data_fetchers import StockDataFetcher
-from models import Predictor
-from utils import StationarityTester
+from models import ProphetWrapper
+from utils import StationarityTester, DateTimeOperator
 
 map_function_to_field_name = {
     'TIME_SERIES_MONTHLY': 'Monthly Time Series',
@@ -10,11 +10,14 @@ map_function_to_field_name = {
     'TIME_SERIES_DAILY': 'Time Series (Daily)'
 }
 
-
 class StockPredictionWrapper:
     def __init__(self) -> None:
         self.dataframe = None
         self.forecast = None
+        
+    def __get_field_by_function(self, function):
+        return map_function_to_field_name[function] 
+
 
     def __convert_time_series_to_stationary(self, dataframe,
                                             stationarity_test: str = 'kdss',
@@ -71,7 +74,7 @@ class StockPredictionWrapper:
                                     rapidapi_host=rapidapi_host)\
         .fetch_data()
 
-        field_to_use = map_function_to_field_name[function]
+        field_to_use = self.__get_field_by_function(function)
         df = RawDataTransformer(raw_data).to_dataframe(field_to_use)
         pred_df = Preprocessor(df).preprocess_alpha_vantage_df()
 
@@ -79,12 +82,14 @@ class StockPredictionWrapper:
             pred_df = self.__convert_time_series_to_stationary(pred_df,
                             stationarity_test=stationarity_test,
                             smoother=smoother)
-
-        save_path = save_path if save_path != 'plot.png' else f'reports/stocks/predictions/{symbol}/{function}_at_today.png'
-        forecast = Predictor.predict(pred_df[:-cutoff], model='prophet')
+            
+        save_path = save_path if save_path != 'plot.png' else \
+        f'reports/stocks/predictions/{symbol}/{function}_{DateTimeOperator.get_current_date_and_time()}.png'
+        forecast = ProphetWrapper().predict(pred_df[:-cutoff], function=function)
 
         if save_plot:
             PlotWriterReader(pred_df, forecast).save_original_and_prediction_plot(save_path=save_path)
+
         self.dataframe, self.forecast = pred_df, forecast
         return pred_df, forecast
 
