@@ -1,5 +1,4 @@
 import pandas as pd
-from sklearn.preprocessing import MinMaxScaler
 
 class Preprocessor:
     def __init__(self, dataframe) -> None:
