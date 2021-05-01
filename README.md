@@ -9,9 +9,9 @@ Currently the only supported api is [alpha-vantage](https://rapidapi.com/alphava
 <ol>
 <li>Clone the repo (git clone [github_repo_url]) </li>
 <li>Open project folder</li>
-<li>Enter the virutal enviroment and install dependencies. (make activate_install) </li>
+<!--<li>Enter the virutal enviroment and install dependencies. (make activate_install) </li>-->
 <li>Create RAPIDAPI account and credentials.</li> 
 <li>Make an instance of StockPredictionWrapper and call run_prediction() with modified parameters. (check the main.py for expamle code) </li>
-<li>Run main.py (make run)</li>
+<li>Run main.py (make run_main)</li>
 </ol>
 </p>
