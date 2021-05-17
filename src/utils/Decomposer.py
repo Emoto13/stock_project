@@ -19,21 +19,12 @@ class Decomposer:
     def series_seasonal_decompose(series, model='additive',period=None):
         decomposed = seasonal_decompose(series, model=model, extrapolate_trend='freq', period=period)
         return decomposed
-    
-    @staticmethod
-    def get_periodicty_fft(signal):
-        """[summary]
-
-        Returns:
-            [type]: [description]
-        """
-        print(signal.size, len(signal))
-        fourier = np.fft.fft(signal)
-        freq = np.fft.fftfreq(signal.size)
-        print(fourier[:10], freq[:10])
-        return 
         
     @staticmethod
     def detrend(series):
-        detrended = signal.detrend(series.values)
+        detrended = signal.detrend(series)
         return detrended
+
+    @staticmethod
+    def get_signal_periodicity(signal):
+        pass

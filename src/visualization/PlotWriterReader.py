@@ -14,9 +14,11 @@ class PlotWriterReader:
 
     def save_original_and_prediction_plot(self, save_path='stocks/untitled/double.png'):
         self.__create_folders(save_path=save_path)
-        sns.lineplot(x = "ds", y = "y", data = self.original)
-        sns.lineplot(x = "ds", y = "yhat", data = self.forecast)
-        plt.ylabel("Value")
+        sns.lineplot(x = "ds", y = "y", data = self.original, label="Actual price")
+        sns.lineplot(x = "ds", y = "yhat", data = self.forecast, label="Predicted price")
+        plt.title('Stock price prediction')
+        plt.xlabel('Time')
+        plt.ylabel('Price')
         plt.savefig(save_path)
     
     def save_plot(self, x, y, title="Prediction", xlabel='Date', ylabel='Value', dpi=100, save_path='stocks/untitled/plot.png'):
