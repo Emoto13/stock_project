@@ -17,7 +17,7 @@ run_playground: create_install
 	$(BIN)python3 src/playground.py
 	make clean
 
-run_file: activate
+run_file: create_install
 	$(BIN)python3 $(path);
 	make clean
 
