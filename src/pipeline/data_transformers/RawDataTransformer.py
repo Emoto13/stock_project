@@ -26,11 +26,3 @@ class RawDataTransformer:
             data = self.__find_value(data, field)
         self.dataframe = pd.DataFrame(data)
         return self.dataframe
-    
-
-
-#dw = DataWrangler(StockDataFetcher.fetch_data_alpha_vantage())
-#dw.to_dataframe(['Monthly Time Series'])
-#dw.to_dataframe(['Weekly Time Series'])
-#dw.to_dataframe(['Time Series (Daily)'])
-#print(dw.dataframe)
