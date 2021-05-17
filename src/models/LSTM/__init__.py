@@ -1,1 +1,1 @@
-from .src import LSTMForecaster, LSTMForecasterBuilder
+from .customizable import LSTMForecaster, LSTMWrapper
