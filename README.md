@@ -4,9 +4,9 @@ Stock_project is a Python library for stock prediction through different models.
 
 ## Current supported models
 
-1. Prophet
-2. LSTM
-3. Transformer + Time2Vec
+1. [Prophet](https://github.com/Emoto13/stock_project/blob/main/src/models/Prophet/README.md)
+2. [LSTM](https://github.com/Emoto13/stock_project/blob/main/src/models/LSTM/README.md)
+3. [Transformer + Time2Vec](https://github.com/Emoto13/stock_project/blob/main/src/models/Transformer/README.md)
 
 To be added:
 4. Bidirectional LSTM
