@@ -34,7 +34,7 @@ make run_main
 
 ## Alternative Installation
 
-Use the package manager [pip](https://pip.pypa.io/en/stable/) to install foobar.
+Use the package manager [pip3](https://pip.pypa.io/en/stable/) to install foobar.
 
 ```bash
 pip3 install -r requirements.txt
@@ -42,30 +42,47 @@ pip3 install -r requirements.txt
 
 
 ## Usage
-You can instantiate any of the model wrapper classes or use StockPredictionWrapper for simplicity.
+You can instantiate any of the <model-name>Wrapper class for stock prediction. Refer to the documentation of each model for details.
+
+[Example usage](https://github.com/Emoto13/stock_project/blob/main/src/main.py):
 
 ```python
-from StockPredictionWrapper import StockPredictionWrapper
+from visualization.PlotWriterReader import PlotWriterReader
+from pipeline.data_transformers import PreProcessor, Smoother
+from utils import DateTimeOperator
+from models import LSTMWrapper
+from sklearn.preprocessing import MinMaxScaler
+import pandas_datareader as web
 
-key = "your_key"
+key = "key"
 periodicity = "daily"
 symbol = "GOOGL"
+
+df = web.DataReader(symbol, f"av-{periodicity}", api_key=key)
+pred_df = PreProcessor(df).preprocess_alpha_vantage_df()
+original_df = pred_df.copy()
+original_df.set_index(['ds'], inplace=True)
+
+scaler = MinMaxScaler(feature_range=(0,1))
+pred_df.y = scaler.fit_transform(pred_df.y.values.reshape(-1,1))[:,0]
+
+pred_df.y = Smoother.smooth(pred_df.y.values, 'moving_average', 30)
     
-original_data, forecast = StockPredictionWrapper()\
-.run_prediction(symbol=symbol,
-                periodicity=periodicity,
-                api_key=key,
-                convert_to_stationary=True,
-                stationarity_test='adf',
-                smoother='moving_average',
-                save_plot=True,
-                model='lstm',
-                cutoff=0,
-                test_mode=True,
-                scale=True,
-                changepoint_prior_scale=0.5,
-                days_ahead=365,
-                window_size=9)
+save_path = f'reports/stocks/predictions/ \
+              {symbol}/{DateTimeOperator.get_current_date_and_time()}_lstm_{periodicity}.png'
+lstmw = LSTMWrapper(dataframe=df, periodicity='daily',
+                    epochs=35, neurons=10, dropout=0.2, days_ahead=300)
+forecast = lstmw.run()
+
+
+pred_df.rename(columns={"y":"yhat"}, inplace=True)
+result = pred_df.append(forecast)
+result.set_index(['ds'], inplace=True)
+result.yhat = scaler.inverse_transform(result.yhat.values.reshape(-1,1))[:,0]
+
+PlotWriterReader(original_df, result).save_original_and_prediction_plot(save_path=save_path)
+
+
 ```
 
 ## Contributing
