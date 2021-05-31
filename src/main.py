@@ -3,7 +3,6 @@ from pipeline.data_transformers import PreProcessor, Smoother
 from utils import DateTimeOperator
 from models import LSTMWrapper
 from sklearn.preprocessing import MinMaxScaler
-import pandas as pd
 import pandas_datareader as web
 
 key = "key"
@@ -15,13 +14,15 @@ pred_df = PreProcessor(df).preprocess_alpha_vantage_df()
 original_df = pred_df.copy()
 original_df.set_index(['ds'], inplace=True)
 
-scaler = MinMaxScaler(feature_range=(0,50))
+scaler = MinMaxScaler(feature_range=(0,1))
 pred_df.y = scaler.fit_transform(pred_df.y.values.reshape(-1,1))[:,0]
 
 pred_df.y = Smoother.smooth(pred_df.y.values, 'moving_average', 30)
     
-save_path = f'reports/stocks/predictions/{symbol}/{DateTimeOperator.get_current_date_and_time()}_lstm_{periodicity}.png'
-lstmw = LSTMWrapper(dataframe=df, periodicity='daily', epochs=35, neurons=10, dropout=0.2, days_ahead=300)
+save_path = f'reports/stocks/predictions/ \
+              {symbol}/{DateTimeOperator.get_current_date_and_time()}_lstm_{periodicity}.png'
+lstmw = LSTMWrapper(dataframe=df, periodicity='daily',
+                    epochs=35, neurons=10, dropout=0.2, days_ahead=300)
 forecast = lstmw.run()
 
 
