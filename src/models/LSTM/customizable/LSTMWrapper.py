@@ -26,7 +26,9 @@ class LSTMWrapper:
 
         # Load tf model
         if load: self.model = load_model(checkpoint)
-        else: self.model = LSTMForecaster(units=units, n_steps=n_steps, neurons=neurons, epochs=epochs, batch_size=batch_size, activation=activation, dropout=dropout, checkpoint=checkpoint)
+        else: self.model = LSTMForecaster(units=units, n_steps=n_steps, neurons=neurons,
+                                          epochs=epochs, batch_size=batch_size, activation=activation,
+                                          dropout=dropout,  clipnorm=clipnorm, checkpoint=checkpoint)
     
     # Get train and test sets
     # Convert Xs to correct shape

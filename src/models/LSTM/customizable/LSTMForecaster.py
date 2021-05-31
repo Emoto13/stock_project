@@ -6,7 +6,7 @@ import tensorflow as tf
 
 
 class LSTMForecaster:
-    def __init__(self, units=128, n_steps=7, neurons=3, activation='relu', epochs=35, batch_size=32, dropout=0.0, checkpoint="LSTM_checkpoint"):
+    def __init__(self, units=128, n_steps=7, neurons=3, activation='relu', epochs=35, batch_size=32, dropout=0.0, clipnorm=0, checkpoint="LSTM_checkpoint"):
         # Deactivating CUDA because tensorflow throws Unknown error for LSTM Networks
         import os
         os.environ["CUDA_VISIBLE_DEVICES"] = "-1"
@@ -17,6 +17,7 @@ class LSTMForecaster:
         self.epochs = epochs
         self.batch_size = batch_size
         self.dropout = dropout
+        self.clipnorm = clipnorm
         self.checkpoint = checkpoint
         self.model = self.__build_model()                      
     
@@ -26,7 +27,7 @@ class LSTMForecaster:
               Dropout(self.dropout)
         ] * self.neurons)
         model.add(Dense(1)) 
-        optimizer = Adam()
+        optimizer = Adam(clipnorm=self.clipnorm)
         model.compile(optimizer=optimizer, loss='mse', metrics=[tf.keras.metrics.RootMeanSquaredError(), 'mse', 'mape'])
         return model
 
