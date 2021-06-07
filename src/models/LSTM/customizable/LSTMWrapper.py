@@ -9,7 +9,7 @@ from .PreProcessor import PreProcessor
 
 # Wrapper around 
 class LSTMWrapper:
-    def __init__(self, dataframe=None, periodicity="weekly",
+    def __init__(self, dataframe=None,
                  units=128, n_steps=7,
                  neurons=3, activation='relu',
                  epochs=35, batch_size=32, 
@@ -17,7 +17,6 @@ class LSTMWrapper:
                  clipnorm=0,
                  checkpoint="LSTM_checkpoint", load=False):
         self.dataframe = dataframe
-        self.periodicity = periodicity
         self.days_ahead = days_ahead
         self.n_steps = n_steps
         self.load = load
@@ -59,9 +58,9 @@ class LSTMWrapper:
         temp_predictions.insert(0, 0)
         
         for i in range(1, days_ahead):
-            lstm_input = np.array(temp_predictions[1:])
+            lstm_input = np.array(temp_predictions[1:], dtype='float64')
             lstm_input = lstm_input.reshape([1, self.n_steps, 1])
-            yhat = self.model.predict(tf.convert_to_tensor(lstm_input, dtype='float32'))
+            yhat = self.model.predict(tf.convert_to_tensor(lstm_input, dtype='float64'))
             temp_predictions.append(yhat[0][0])
             temp_predictions = temp_predictions[1:]
             output.append(yhat[0].numpy()[0][0])

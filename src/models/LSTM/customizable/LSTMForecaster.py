@@ -32,7 +32,7 @@ class LSTMForecaster:
         return model
 
     def train(self, X_train=None, y_train=None):
-        stop_early = EarlyStopping(monitor='val_mse', patience=self.epochs//self.neurons//10)
+        #stop_early = EarlyStopping(monitor='val_mse', patience=int(0.5*self.epochs))
         cp_callback = ModelCheckpoint(filepath=self.checkpoint,
                                       save_weights_only=True,
                                       save_best_only=True,
@@ -41,7 +41,7 @@ class LSTMForecaster:
         self.model.fit(X_train, y_train,
                        epochs=self.epochs, verbose=1,
                        batch_size=self.batch_size,
-                       callbacks=[cp_callback, stop_early],
+                       callbacks=[cp_callback],#, stop_early],
                        validation_split = 0.1)
 
     def test(self, X_test=None, y_test=None):
