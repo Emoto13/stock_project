@@ -1,30 +1,29 @@
 from tensorflow.keras.layers import Layer
 import tensorflow as tf
 
-from .constants import SEQ_LEN
-
 class Time2Vector(Layer):
-  def __init__(self, **kwargs):
+  def __init__(self, sequence_len=128):
+    self.sequence_len = sequence_len
     super(Time2Vector, self).__init__()
 
   def build(self, input_shape):
     self.weights_linear = self.add_weight(name='weight_linear',
-                                shape=(int(SEQ_LEN),),
+                                shape=(int(self.sequence_len),),
                                 initializer='uniform',
                                 trainable=True)
     
     self.bias_linear = self.add_weight(name='bias_linear',
-                                shape=(int(SEQ_LEN),),
+                                shape=(int(self.sequence_len),),
                                 initializer='uniform',
                                 trainable=True)
     
     self.weights_periodic = self.add_weight(name='weight_periodic',
-                                shape=(int(SEQ_LEN),),
+                                shape=(int(self.sequence_len),),
                                 initializer='uniform',
                                 trainable=True)
 
     self.bias_periodic = self.add_weight(name='bias_periodic',
-                                shape=(int(SEQ_LEN),),
+                                shape=(int(self.sequence_len),),
                                 initializer='uniform',
                                 trainable=True)
 
