@@ -1,2 +1,2 @@
 from .LSTMBidirectionalForecaster import  LSTMBidirectionalForecaster
-from .LSTMBidirectionalWrapper import LSTMWrapper
+from .LSTMBidirectionalWrapper import LSTMBidirectionalWrapper

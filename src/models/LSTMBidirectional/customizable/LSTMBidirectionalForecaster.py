@@ -1,11 +1,11 @@
 from tensorflow.keras.models import Sequential
-from tensorflow.keras.layers import LSTM, Dense, Dropout
+from tensorflow.keras.layers import LSTM, Dense, Dropout, Bidirectional
 from tensorflow.keras.optimizers import Adam
-from tensorflow.keras.callbacks import ModelCheckpoint, Bidirectional
+from tensorflow.keras.callbacks import ModelCheckpoint
 import tensorflow as tf
 
 
-class LSTMForecaster:
+class LSTMBidirectionalForecaster:
     def __init__(self, units=128, n_steps=7, neurons=3, activation='relu', epochs=35, batch_size=32, dropout=0.0, clipnorm=0, checkpoint="LSTM_checkpoint"):
         # Deactivating CUDA because tensorflow throws Unknown error for LSTM Networks
         import os

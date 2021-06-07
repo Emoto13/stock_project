@@ -8,7 +8,7 @@ from .PreProcessor import PreProcessor
 
 
 # Wrapper around 
-class LSTMWrapper:
+class LSTMBidirectionalWrapper:
     def __init__(self, dataframe=None,
                  units=128, n_steps=7,
                  neurons=3, activation='relu',
